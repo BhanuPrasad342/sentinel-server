@@ -3,6 +3,7 @@ package com.sentineluba.server.config;
 import com.sentineluba.server.agent.filter.AgentAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -25,12 +26,24 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 
+                // Enable CORS using CorsConfig
+                .cors(cors -> {})
+
                 .addFilterBefore(
                         agentAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // =====================================
+                        // CORS PREFLIGHT
+                        // =====================================
+
+                        .requestMatchers(
+                                HttpMethod.OPTIONS,
+                                "/**"
+                        ).permitAll()
 
                         // =====================================
                         // PUBLIC ENDPOINTS

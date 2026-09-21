@@ -17,10 +17,11 @@ public class CorsConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        configuration.setAllowedOrigins(
+        configuration.setAllowedOriginPatterns(
                 List.of(
                         "http://localhost:63342",
-                        "http://localhost:5173"
+                        "http://localhost:5173",
+                        "https://sentinel-frontend-nine-sigma.vercel.app"
                 )
         );
 
